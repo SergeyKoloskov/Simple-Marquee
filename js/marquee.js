@@ -109,6 +109,10 @@
 	            return;
 	        }
 	        
+                if (config.autostart)
+                {
+                    this.documentHasFocus = true;
+                }
 	        //create the Marquee
 	        this.createMarquee();
         },
@@ -312,6 +316,7 @@
         return this;
     };
     $.fn.SimpleMarquee.defaults = {
+	    autostart: true,
             property: 'value',
             onComplete: null,
             duration: 20000,
