@@ -153,7 +153,9 @@
         	$(window).off('blur focus');
         },
         getPosition: function(elName){
-        	this.currentPos = parseInt($(elName).css('left'));
+            var plugin = this;
+            var config = plugin.settings;
+        	this.currentPos = parseInt($(elName).css(config.direction));
             return this.currentPos;
         },
         createMarquee: function(){
@@ -245,7 +247,7 @@
                 plugin.marqueeSpawned[i].duration = config.duration;  
                 plugin.marqueeSpawned[i].padding = config.padding;  
 
-                plugin.marqueeSpawned[i].el.css('left', plugin.marqueeSpawned[i].currentPos+config.padding +'px'); //setting left according to postition
+                plugin.marqueeSpawned[i].el.css(config.direction, plugin.marqueeSpawned[i].currentPos+config.padding +'px'); //setting left according to postition
 
                  if (plugin.documentHasFocus == true){
                   plugin.marqueeManager(plugin.marqueeSpawned[i]);
@@ -263,13 +265,15 @@
         },
         marqueeManager: function(marqueed_el){
         	var plugin = this;
-        	var elName = marqueed_el.name;
+            var elName = marqueed_el.name;
+        	var config = plugin.settings;
+            
         	if (marqueed_el.hovered == false) { 
 
                 if (marqueed_el.counter > 0) {  //this is not the first loop
                   
                       marqueed_el.timeLeft = marqueed_el.duration;
-                      marqueed_el.el.css('left', marqueed_el.containerWidth +'px'); //setting margin 
+                      marqueed_el.el.css(config.direction, marqueed_el.containerWidth +'px'); //setting margin 
                       marqueed_el.currentPos = marqueed_el.containerWidth; 
                       marqueed_el.distanceLeft = marqueed_el.totalDistance - (marqueed_el.containerWidth - plugin.getPosition(elName));
 
@@ -280,7 +284,7 @@
 
             } else {
                   marqueed_el.hovered = false;
-                  marqueed_el.currentPos = parseInt(marqueed_el.el.css('left'));
+                  marqueed_el.currentPos = parseInt(marqueed_el.el.css(config.direction));
                   marqueed_el.distanceLeft = marqueed_el.totalDistance - (marqueed_el.containerWidth - plugin.getPosition(elName));
                   marqueed_el.timeLeft = (((marqueed_el.totalDistance - (marqueed_el.containerWidth - marqueed_el.currentPos))/ marqueed_el.totalDistance)) * marqueed_el.duration;
             }
@@ -288,10 +292,11 @@
         	plugin.marqueeAnim(marqueed_el);
         },
         marqueeAnim: function(marqueeObject){
-        	var plugin = this;
+            var plugin = this;
+            var config = plugin.settings;
         	marqueeObject.counter++;
             marqueeObject.el.clearQueue().animate(
-            		{'left': marqueeObject.endPoint+'px'}, 
+            		{[config.direction]: marqueeObject.endPoint+'px'}, 
             		marqueeObject.timeLeft, 
             		'linear', 
             		function(){
@@ -329,6 +334,7 @@
         sibling_class: 0,
         hover: true,
         velocity: 0,
+        direction: 'left'
     };
     
 })( jQuery, window, document );
