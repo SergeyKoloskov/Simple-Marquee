@@ -39,6 +39,7 @@
 //                                   container. 
 //
 //    $6 hover:                     Boolean to indicate whether pause on hover should is required. 
+
 ;(function ($, window, document, undefined){
 	var pluginName = 'SimpleMarquee';
 
@@ -183,8 +184,10 @@
 
             var totalDistance =  containerWidth - endPoint;
             
-            
-            
+                                    
+            if (config.velocity !== 0 ) {
+                config.duration = totalDistance / config.velocity;
+            }
             
             for (var i = 0; i < spawnAmount; i++) {
             	
@@ -317,14 +320,15 @@
     };
     $.fn.SimpleMarquee.defaults = {
 	    autostart: true,
-            property: 'value',
-            onComplete: null,
-            duration: 20000,
-            padding: 10,
-            marquee_class: '.marquee',
-            container_class: '.simple-marquee-container',
-            sibling_class: 0,
-            hover: true
+        property: 'value',
+        onComplete: null,
+        duration: 20000,
+        padding: 10,
+        marquee_class: '.marquee',
+        container_class: '.simple-marquee-container',
+        sibling_class: 0,
+        hover: true,
+        velocity: 0,
     };
     
 })( jQuery, window, document );
